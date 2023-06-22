@@ -1,0 +1,12 @@
+Hello friend!
+
+Here's what I can do:
+
+`!about` - The command that you just used, sends you my description
+`!love` - I'm gonna tell you how awesome you are!
+`!avatar @*user*` - Take a closer look at users avatar
+`!wish @*user*/any word` - wish anything to anyone!
+`!gn` - use this when you go to bedge
+`!invite` - You can dm me this command or use it in any channel (nino-cries preferably) to invite people to play with you! Use `!ready` when you are to send a status report to everyone who accepted
+
+Soon I'll be able to do even more..
