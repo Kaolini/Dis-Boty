@@ -62,3 +62,5 @@ def read_compl():
         spamreader = csv.reader(f, quotechar='\n')
         file = random.choice(list(spamreader))
         return file[0]
+
+

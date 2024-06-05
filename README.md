@@ -1,2 +1,2 @@
 # lil-bro
-Greatest bot for discord
+README will be done later

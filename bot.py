@@ -87,18 +87,32 @@ def checkUser(userID):
         print("Error checking user: ", e)
         return False
 
+def check_user_role(ctx, user: discord.Member, role_id):
+    role = discord.utils.get(ctx.guild.roles, id=role_id)
+    if role in user.roles:
+        return True
+    else:
+        return False
+
+
 
 
 
 
 def run_discord_bot():
-    TOCKEN = "MTExNTk0MjE2ODY3OTQyODE2Ng.GnxGF8.b76rUW363m6-fL9jlf3w_nbsb2Sa9TLJ10vg4c"
+    TOCKEN = "MTI0Nzg4MDk4Njc2MzcyMjc5Mg.GGT2PH.8HHT6DaoFXFBLfy0fbsH-rxw5dkFfvfkqkJeaA"
     intents = discord.Intents.default()
     intents.message_content = True
     intents.members = True
     # client = discord.Client(intents=intents)
     client = commands.Bot(command_prefix="!", intents=intents)
 
+    @client.command()
+    async def suggest_meme(ctx):
+        if ctx.message.channel.id == 1247906796698337312:
+            await ctx.send(f"Please choose a person you want to add a meme to")
+        else:
+            await ctx.send(f"This command only works in 'meme-suggestions' channel")
 
     @client.command()
     async def get_list_users(ctx):
@@ -128,20 +142,23 @@ def run_discord_bot():
 
     @client.command()
     async def add_twitch(ctx, twitch_name):
-        # Opens and reads the json file.
-        with open('jsons/streemers.json', 'r') as file:
-            streamers = json.loads(file.read())
+        if check_user_role(ctx, ctx.author, 1247880385891799142):
+            # Opens and reads the json file.
+            with open('jsons/streemers.json', 'r') as file:
+                streamers = json.loads(file.read())
 
-        # Gets the users id that called the command.
-        user_id = ctx.author.id
-        # Assigns their given twitch_name to their discord id and adds it to the streamers.json.
-        streamers[user_id] = twitch_name
+            # Gets the users id that called the command.
+            user_id = ctx.author.id
+            # Assigns their given twitch_name to their discord id and adds it to the streamers.json.
+            streamers[user_id] = twitch_name
 
-        # Adds the changes we made to the json file.
-        with open('jsons/streemers.json', 'w') as file:
-            file.write(json.dumps(streamers))
-        # Tells the user it worked.
-        await ctx.send(f"Added {twitch_name} for {ctx.author} to the notifications list.")
+            # Adds the changes we made to the json file.
+            with open('jsons/streemers.json', 'w') as file:
+                file.write(json.dumps(streamers))
+            # Tells the user it worked.
+            await ctx.send(f"Added {twitch_name} for {ctx.author} to the notifications list.")
+        else:
+            await ctx.send(f"Sorry, but you need to have a 'Mr.Strimer' role to add your twitch")
 
 
 
@@ -328,8 +345,8 @@ def run_discord_bot():
             # Makes sure the json isn't empty before continuing.
             if streamers is not None:
                 # Gets the guild, 'twitch streams' channel, and streaming role.
-                guild = client.get_guild(1097398661908017252)
-                channel = client.get_channel(1119243519131926558)
+                guild = client.get_guild(1245134925104021624)
+                channel = client.get_channel(1247882056998850580)
                 # Loops through the json and gets the key,value which in this case is the user_id and twitch_name of
                 # every item in the json.
                 for user_id, twitch_name in streamers.items():
@@ -355,6 +372,7 @@ def run_discord_bot():
                         async for message in channel.history(limit=10):
                             if res > 0:
                                 break
+
                             # If it hasn't, assign them the streaming role and send the message.
                             else:
                                 print(user.mention)
